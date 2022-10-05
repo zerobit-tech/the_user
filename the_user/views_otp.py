@@ -73,7 +73,8 @@ def setting_two_factor(request):
                 message = "Two-factor disabled"
             two_factor_setting.save()
 
-            if request.capture_user_activity:
+
+            if hasattr(request,'capture_user_activity'):
                 request.capture_user_activity.send(sender='setting_two_factor', request=request, target=two_factor_setting, message=message)
 
     if two_factor_setting.value:

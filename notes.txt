@@ -7,6 +7,20 @@ source venv/bin/activate
 python -m pip install --upgrade pip
 cd sample_project/
 pip install -r requirements.txt
+
+# Try building your package with python setup.py sdist (run from inside django-polls). This creates a directory called dist and builds your new package, django-polls-0.1.tar.gz.
+
+python setup.py sdist
+
 python manage.py runserver 9019
 python manage.py test
 python manage.py test the_user
+
+
+
+pipenv install git+https://github.com/zerobit-tech/the_user@main#egg=the_user
+
+git+ 
+https://github.com/zerobit-tech/the_user@main#egg=the_user   --> git repo url
+@main --> git brach
+#egg=the_user --> how to determine the egg: look up the name argument to the setup() function in the package's setup.py.

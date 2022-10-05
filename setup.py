@@ -3,7 +3,7 @@ import sys
 from setuptools import setup, find_packages
 #import get_suite
 
-DESCRIPTION = "the_user: base system application for ZeroBit"
+DESCRIPTION = "the_user: base application for ZeroBit"
 VERSION = '1.0.0'
 LONG_DESCRIPTION = None
 try:
@@ -17,6 +17,8 @@ requirements = [
     'django-money==2.1.1',
     'django-otp==1.1.3',
     'django-allauth==0.50.0',
+    'django-crispy-forms==1.14.0',
+    'orjson==3.8.0',
 
 ]
 
@@ -45,7 +47,7 @@ setup(
     include_package_data=True,
     author='ZeroBit',
     author_email='support@ZeroBit.tech',
-    url='http://github.com/vintasoftware/django-templated-email/',
+    url='https://github.com/zerobit-tech/the_user/',
     license='MIT',
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
