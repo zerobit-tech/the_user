@@ -5,7 +5,8 @@ This app can be installed and used in your django project by:
 
 .. code-block:: bash
 
-    $ pip install the_user
+    $ pip install git+https://github.com/zerobit-tech/the_user@main#egg=the_user
+
 
 
 Edit your `settings.py` file to include `'the_user'` in the `INSTALLED_APPS`

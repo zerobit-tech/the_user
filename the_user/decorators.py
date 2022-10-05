@@ -7,8 +7,27 @@ from .utils import is_otp_required,user_is,need_to_change_password
 from functools import wraps
 
 from django.core.exceptions import PermissionDenied
+
+
 import logging
 logger = logging.getLogger('ilogger')
+
+
+auth_methods = []
+
+def register_auth_method(func):
+    global auth_methods
+    if func not in auth_methods:
+        auth_methods.append(func)
+
+    @wraps(func)
+    def actual_decorator(*args, **kwargs):
+        value = func(*args, **kwargs)
+        return value
+
+    return actual_decorator
+        
+
 # ---------------------------------------------------------------
 #
 # ---------------------------------------------------------------
