@@ -1,8 +1,6 @@
 
 from webbrowser import get
 from ninja.security import HttpBearer
-from pydoc import locate
-
 from .decorators import auth_methods
 
 
