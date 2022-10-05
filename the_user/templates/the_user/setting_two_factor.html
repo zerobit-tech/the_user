@@ -1,0 +1,282 @@
+{% extends "the_user/settings.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "User setting_two_factor_two_factors" %}{% endblock %}
+
+{% block settingdata %}
+<div id="app_twofactor_div">
+
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header"><Strong>{% trans "What is Two-Factor authentication?" %}</Strong></div>
+                <div class="card-body">
+                    <ol>
+                        <li>
+                            Two-factor authentication is an extra layer of security for your {{app_name}} Account.
+                           
+                        </li>
+                        <li>
+                            After you turn it on, signing into your account will require both your regular password and
+                            a 6-digit one-time verification code.<br />
+                        </li>
+                        <li>
+                            A mobile device is required. Using this security feature requires a mobile device capable of
+                            scanning a QR code using Google or Microsoft authenticator application.
+                        </li>
+
+                    </ol>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <!-- LOGIN -->
+        <div class="col-lg">
+            <div class="card">
+                <div class="card-header"><Strong>{% trans "Two-Factor Authentication" %}</Strong></div>
+                <div class="card-body">
+
+
+                    <div class="list-group list-group-accent">
+                        <div
+                            class="list-group-item list-group-item-accent-{% if setting_two_factor.value %}success {% else %}warning {% endif %}   list-group-item-divider">
+                            <div class="row">
+                                <div class="col-sm-9 ">
+                                    {{ setting_two_factor.get_key_display }}
+                                    <div><small class="text-muted">{% trans "For extra layer of security." %}</small>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <form method="POST" onsubmit="show_processing_model()">
+                                        {% csrf_token %}
+                                        <label class="c-switch c-switch-label c-switch-opposite-primary">
+                                            <input onChange="this.form.submit()" name={{setting_two_factor.key}}
+                                                class="c-switch-input" type="checkbox" {% if setting_two_factor.value %}
+                                                checked {% endif %}>
+                                            <span class="c-switch-slider" data-checked="✓" data-unchecked="✕"></span>
+                                            <input type="hidden" name="change2fs" value="Y">
+                                        </label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item list-group-item-accent-danger  list-group-item-divider">
+                            <div class="row">
+                                <div class="col-sm-9 ">
+                                    {% trans 'Get a new Two-Factor QR Code?' %}
+                                    <div><small class="text-muted">{% trans "Just in case." %}</small></div>
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="button" v-on:click="getNewQRCode"
+                                        class="btn btn-primary px-4 c-loading-button" data-coreui="loading-button"
+                                        data-timeout="500" data-progress="true">
+                                        {% trans "Yes" %}
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {% if setting_two_factor.value %}
+        <div class="col-lg">
+
+            <div class="card">
+                <div class="card-header"><Strong>{% trans "Scan the QR Code with Google or Microsoft Authenticator app" %}</Strong>
+                </div>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col">
+                            <img class="img-fluid"
+                                src="https://www.google.com/chart?chs=200x200&chld=M|0&cht=qr&chl={{qr_code_url}}issuer%3D{{app_name}}"></img>
+
+                            <hr>
+
+                            <h5>{% trans "Activate it here" %}</h5>
+
+                            <form method="POST" onsubmit="show_processing_model()" class="w-100">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input v-model="token" placeholder="the 6 digit code" type="number" max="999999"
+                                            class="form-control"
+                                            v-bind:class="{ 'is-valid': verified, 'is-invalid': notverified }" />
+                                        <div class="invalid-feedback">
+                                            {% trans "Please Enter a correct code." %}
+                                        </div>
+                                        <div class="valid-feedback">
+                                            {% trans "Looks good!" %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button @click="submitform" type="button"
+                                            class="btn btn-primary px-4 ">{% trans "Verify" %}
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                            <hr>
+
+
+                        </div>
+
+
+
+
+
+                        <div class="col">
+                            <div class="c-callout "><small class="text-muted">Step 1</small>
+                                <div class="text-value-sm">Install the Google or Microsoft Authenticator app on your mobile device
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="c-callout  "><small class="text-muted">Step 2</small>
+                                <div class="text-value-sm">Scan this QR Code</div>
+                                <hr>
+                            </div>
+                            <div class="c-callout "><small class="text-muted">Step 3</small>
+                                <div class="text-value-sm">Input the 6-digit code that the Google or Microsoft Authenticator app
+                                    provided
+                                    below.
+
+
+
+
+
+                                </div>
+                                <hr>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block more-js %}
+<script>
+    let app_twofactor = new Vue({
+        el: "#app_twofactor_div",
+        delimiters: ['[[', ']]'],
+        data: {
+            token: '',
+            verified: false,
+            notverified: false,
+
+
+        },
+      
+        methods: {
+            getNewQRCode: function (e) {
+             
+
+                const csrftoken = Cookies.get('csrftoken');
+
+                let config = {
+                    headers: {
+                        "X-CSRFToken": csrftoken,
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    }
+                }
+                let data = {
+                    reset: true,
+
+                }
+
+                var self = this
+                axios.post('{% url "api:setting_two_factor_reset" %}', data, config).then(function (
+                    response) {
+                    // handle success
+                    // console.log(response);
+
+                    window.location.reload()
+
+                }).catch(function (error) {
+                    // handle error
+                    // console.log(error);
+                }).then(function () {
+                    // always executed
+                });
+
+            },
+
+            submitform: function (e) {
+          
+                const csrftoken = Cookies.get('csrftoken');
+
+                let config = {
+                    headers: {
+                        "X-CSRFToken": csrftoken,
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    }
+                }
+                let data = {
+                    token: this.token,
+
+                }
+
+                var self = this
+                axios.post('{% url "api:setting_two_factor_verification" %}', data, config).then(
+                    function (response) {
+                        // handle success
+                        // console.log(response);
+                        self.verified = response.data.verified
+
+
+                    }).catch(function (error) {
+                    self.verified = false
+                    // handle error
+                    // console.log(error);
+                }).then(function () {
+                    // always executed
+                    self.notverified = !self.verified
+                });
+
+
+                // e.preventDefault();
+
+            },
+
+
+        }
+    });
+</script>
+
+
+
+{% endblock more-js %}

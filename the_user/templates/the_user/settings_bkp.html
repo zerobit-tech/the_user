@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "User settings" %}{% endblock %}
+
+{% block content %}
+
+<br>
+<!-- LOGIN -->
+<div class="col-sm-12 col-md-6">
+    <div class="card">
+        <div class="card-header">{% trans "User settings" %}</div>
+        <div class="card-body">
+
+            {% for setting in booleansettings %}
+            <div class="list-group list-group-accent">
+                <div class="list-group-item list-group-item-accent-{% if setting.value %}success {% else %}warning {% endif %}   list-group-item-divider">
+                    <div class="row">
+                    <div class="col-sm-9 ">
+                        {{ setting.get_key_display }}
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="c-switch c-switch-label c-switch-opposite-primary">
+                            <input class="c-switch-input" type="checkbox" {% if setting.value %}} checked {% endif %} ><span class="c-switch-slider"
+                                                                                                                             data-checked="✓"
+                                                                                                                             data-unchecked="✕"></span>
+                        </label>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+
+    </div>
+    </div>
+
+
+    {% endblock %}

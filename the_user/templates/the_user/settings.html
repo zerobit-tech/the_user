@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "User settings" %}{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+<div class="container-fluid">
+    <!-- LOGIN -->
+    <div class="row mt-2">
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-header"><Strong>{% trans "User settings" %}</Strong></div>
+                <div class="card-body">
+                    <ul class="c-sidebar-nav">
+                        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link"
+                                                          href="{% url 'the_user:settings' %}">
+                            <svg class="c-sidebar-nav-icon">
+                                <use xlink:href="{{ STATIC_URL }}coreui/vendors/coreui/icons/svg/free.svg#cil-user"></use>
+                            </svg>
+
+                            {% url 'the_user:settings' as url %}
+                            {% if url == request.path %}
+                            <strong> {% trans 'Profile' %}</strong>
+                            {% else %}
+                            {% trans 'Profile' %}
+                            {% endif %}
+
+                            <!--                        <span class="badge badge-info">NEW</span>-->
+                        </a>
+                        </li>
+                        <li class="c-sidebar-nav-title">{% trans 'Security' %}</li>
+
+                        <li class="c-sidebar-nav-item">
+                            <a class="c-sidebar-nav-link" href="{% url 'the_user:setting_two_factor' %}">
+                                <svg class="c-sidebar-nav-icon">
+                                    <use xlink:href="{{ STATIC_URL }}coreui/vendors/coreui/icons/svg/free.svg#cil-qr-code"></use>
+                                </svg>
+                                {% url 'the_user:setting_two_factor' as url %}
+                                {% if url == request.path %}
+                                <strong> {% trans 'Setup Two-Factor' %}</strong>
+                                {% else %}
+                                {% trans 'Setup Two-Factor' %}
+                                {% endif %}
+
+                            </a>
+                        </li>
+
+                        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link"
+                                                          href="{% url 'account_change_password'%}">
+                            <svg class="c-sidebar-nav-icon">
+                                <use xlink:href="{{ STATIC_URL }}coreui/vendors/coreui/icons/svg/free.svg#cil-lock-locked"></use>
+                            </svg>
+                            {% url 'account_change_password' as url %}
+                            {% if url == request.path %}
+                            <strong> {% trans 'Change Password' %}</strong>
+                            {% else %}
+                            {% trans 'Change Password' %}
+                            {% endif %}
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9">
+            {% block settingdata %}
+
+
+            <div class="row">
+
+                <!-- LOGIN -->
+                <div class="col-lg">
+                    <div class="card">
+                        <div class="card-header"><Strong>{% trans "Update Profile" %}</Strong></div>
+                        <div class="card-body">
+                            <form method="POST" onsubmit="show_processing_model()" action="">
+                                {% csrf_token %}
+
+                                {{ profile_form|crispy }}
+                                {{ user_form|crispy }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button class="btn btn-primary px-4" type="submit">{% trans 'Save' %}</button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+                </div>
+
+
+
+
+                {% endblock %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
