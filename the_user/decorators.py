@@ -20,6 +20,7 @@ _external_dashboard=None
 
 
 def internal_dashboard(func):
+    global _internal_dashboard
     _internal_dashboard = func
 
     @wraps(func)
@@ -31,6 +32,7 @@ def internal_dashboard(func):
 
 # ---------------------------------------------------------------
 def external_dashboard(func):
+    global _external_dashboard
     _external_dashboard = func
 
     @wraps(func)
@@ -43,12 +45,12 @@ def external_dashboard(func):
 # 
 # ---------------------------------------------------------------
 
-auth_methods = []
+_auth_methods = []
 
 def register_auth_method(func):
-    global auth_methods
-    if func not in auth_methods:
-        auth_methods.append(func)
+    global _auth_methods
+    if func not in _auth_methods:
+        _auth_methods.append(func)
 
     @wraps(func)
     def actual_decorator(*args, **kwargs):
