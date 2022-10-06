@@ -6,7 +6,6 @@ from .models import BooleanSettings
 from django.contrib.auth.decorators import login_required
 from the_user.decorators import otp_required, must_be, change_password_required
 
-from the_user.decorators import otp_required, _internal_dashboard,_external_dashboard
 
 from the_user.utils import user_is
 from the_user.initial_groups import CUSTOMER_CARE_SUPERVISER, CUSTOMER_CARE_REP, CUSTOMER_CARE_MANAGER
@@ -67,22 +66,25 @@ def setting(request):
 #     form_cls = partial(OTPTokenForm, request.user)
 #
 #     return LoginView.as_view(request, template_name='account/otp.html', authentication_form=form_cls)
+
+
 @login_required
 @otp_required
 @change_password_required
 def landing_page(request):
     # TODO: where to land user on login
+    from the_user.decorators import otp_required, _internal_dashboard,_external_dashboard
 
-    
+    print("_internal_dashboard",_internal_dashboard)
     if user_is(request.user, CUSTOMER_CARE_REP  ):
         if _internal_dashboard:
-            return _internal_dashboard()
+            return _internal_dashboard(request)
         else:
             return  redirect("the_user:settings")
      
     else:
         if _external_dashboard:
-            return _external_dashboard()
+            return _external_dashboard(request)
         else:    
             return  redirect("the_user:settings")
         #return redirect("creditline_customer_base:accounts",customer_id=request.user.customer.uuid)
