@@ -12,6 +12,36 @@ from django.core.exceptions import PermissionDenied
 import logging
 logger = logging.getLogger('ilogger')
 
+# ---------------------------------------------------------------
+# 
+# ---------------------------------------------------------------
+_internal_dashboard=None
+_external_dashboard=None
+
+
+def internal_dashboard(func):
+    _internal_dashboard = func
+
+    @wraps(func)
+    def actual_decorator(*args, **kwargs):
+        value = func(*args, **kwargs)
+        return value
+
+    return actual_decorator
+
+# ---------------------------------------------------------------
+def external_dashboard(func):
+    _external_dashboard = func
+
+    @wraps(func)
+    def actual_decorator(*args, **kwargs):
+        value = func(*args, **kwargs)
+        return value
+
+    return actual_decorator 
+# ---------------------------------------------------------------
+# 
+# ---------------------------------------------------------------
 
 auth_methods = []
 

@@ -5,7 +5,7 @@ This app can be installed and used in your django project by:
 
 .. code-block:: bash
 
-    $ pip install git+https://github.com/zerobit-tech/the_user@main#egg=the_user
+    $ pipenv install git+https://github.com/zerobit-tech/the_user@main#egg=the_user
 
 
 
