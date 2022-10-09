@@ -139,3 +139,53 @@ LANGUAGES = (
     ('hi', 'Hindi'),
     ('es', 'Spanish'),
 )
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'formatters': {
+            'verbose': {
+                'format': '%(levelname)s [%(asctime)s] %(module)s %(message)s - %(filename)s %(funcName)s %(pathname)s'
+            },
+
+            'debug_format': {
+                'format': '%(pathname)s  %(filename)s %(funcName)s => %(message)s'
+            },
+
+        },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'formatter':'debug_format',
+            'class': 'logging.StreamHandler',
+        },
+
+ 
+
+    },
+    'loggers': {
+        # Uncomment this to print all SQLs
+        # 'django.db.backends': {
+        #     'level': 'DEBUG',
+        #     'handlers': ['console'],
+        # },
+
+        'ilogger': {
+            'handlers': [  'console', ],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+    }
+}

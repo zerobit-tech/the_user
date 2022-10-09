@@ -1,12 +1,15 @@
 
 from webbrowser import get
 from ninja.security import HttpBearer
+
+
 import logging
 logger = logging.getLogger('ilogger')
 
 
 class BearerAuth(HttpBearer):
     def authenticate(self, request, token):
+        logger.debug(f"Starting auth")
         from .decorators import _auth_methods
         autherized = None
         for auth_method in _auth_methods:
