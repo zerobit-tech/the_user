@@ -75,7 +75,7 @@ def landing_page(request):
     # TODO: where to land user on login
     from the_user.decorators import otp_required, _internal_dashboard,_external_dashboard
 
-    print("_internal_dashboard",_internal_dashboard)
+    # print("_internal_dashboard",_internal_dashboard)
     if user_is(request.user, CUSTOMER_CARE_REP  ):
         if _internal_dashboard:
             return _internal_dashboard(request)

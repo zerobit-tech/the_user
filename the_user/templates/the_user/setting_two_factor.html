@@ -218,7 +218,7 @@
                 }
 
                 var self = this
-                axios.post('{% url "api:setting_two_factor_reset" %}', data, config).then(function (
+                axios.post('{% url "internalapi:setting_two_factor_reset" %}', data, config).then(function (
                     response) {
                     // handle success
                     // console.log(response);
@@ -251,7 +251,7 @@
                 }
 
                 var self = this
-                axios.post('{% url "api:setting_two_factor_verification" %}', data, config).then(
+                axios.post('{% url "internalapi:setting_two_factor_verification" %}', data, config).then(
                     function (response) {
                         // handle success
                         // console.log(response);
