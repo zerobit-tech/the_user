@@ -1,3 +1,5 @@
+rm - r venv
+
 pip install --upgrade virtualenv
 virtualenv venv --python=python3.9
 source venv/bin/activate
