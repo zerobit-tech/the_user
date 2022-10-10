@@ -7,10 +7,11 @@ from django_otp import login, devices_for_user
 
 from ninja import Schema , Field
 from .otp_utils import get_user_totp_device, delete_user_totp_device
- 
+from the_user.api_auth import BearerAuth 
 
-router = Router()
 
+router = Router(auth= BearerAuth())
+internal_router = Router(auth=django_auth) 
  
 
 # -------------------------------------------------------
@@ -21,7 +22,7 @@ class TokenSchema(Schema):
     token:str 
  
 
-@router.post("/verify2ft", url_name="setting_two_factor_verification",auth=django_auth)
+@internal_router.post("/verify2ft", url_name="setting_two_factor_verification")
 def verify2ft(request, token:TokenSchema):
     """
     Use this endpoint to verify/enable a TOTP device
@@ -47,7 +48,7 @@ def verify2ft(request, token:TokenSchema):
 class ResetSchema(Schema):
     reset:bool 
 
-@router.post("/reset2ft", url_name="setting_two_factor_reset",auth=django_auth)
+@internal_router.post("/reset2ft", url_name="setting_two_factor_reset")
 def reset2ft(request, data:ResetSchema):
         reset = data.dict()["reset"]
         if reset:
