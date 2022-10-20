@@ -33,28 +33,16 @@ def login_logger(request, user, **kwargs):
     # user.profile.set_language(request)
 
 @receiver(password_changed)
-def password_changed(request, user, **kwargs):
+def log_password_changed(request, user, **kwargs):
     profile = create_profile(user)
     profile.force_password_change = False
     profile.save()
 
 @receiver(password_reset)
-def password_reset(request, user, **kwargs):
+def log_password_reset(request, user, **kwargs):
     profile = create_profile(user)
     profile.force_password_change = False
     profile.save()
 
 
-@receiver(email_confirmed)
-def email_confirmed(request, user, **kwargs):
-    pass
-
-
-@receiver(email_confirmation_sent)
-def email_confirmation_sent(request, user, **kwargs):
-    pass
-
-
-@receiver(email_changed)
-def email_changed(request, user, **kwargs):
-    pass
+ 
