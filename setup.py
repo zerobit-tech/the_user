@@ -12,7 +12,7 @@ except:
     pass
 
 requirements = [
-    'django==4.0.5',
+    'django',
     'django-ninja==0.19.1',
     'django-money==2.1.1',
     'django-otp==1.1.3',
